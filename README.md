@@ -27,9 +27,9 @@
 ---
 
 ### 📫 Hubungi Saya:
-- ✉️ Email: [Masukkan emailmu di sini]  
-- 💬 Telegram: [Masukkan username Telegrammu]  
-- 🌐 LinkedIn: [Masukkan link profil LinkedIn-mu]  
+- ✉️ Email: wokabi108@gmail.com  
+- 💬 Whatsapp: 089516624077  
+- 🌐 Discord: server masih dalam pengembangan  
 
 ---
 

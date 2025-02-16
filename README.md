@@ -35,7 +35,10 @@
 
 ### 🔥 "Koding bukan sekadar menulis kode, tapi juga seni dalam menyelesaikan masalah!" 🚀  
 
+---
 
+  ## 💰 Bantu saya dengan cara berdonasi
+  [![BelikanAkuKopi](https://user-images.githubusercontent.com/26188697/180601310-e82c63e4-412b-4c36-b7b5-7ba713c80380.png)](https://saweria.co/wokabi) 
 <!--
 **Hamzah82/Hamzah82** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 

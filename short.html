@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(100, 116, 139, 0.5);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #38bdf8;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .btn {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #38bdf8, #0ea5e9);
+            color: white;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+            text-transform: uppercase;
+            width: 100%;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 1);
+        }
+        #shortened-url {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #38bdf8;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <input type="text" id="url-input" placeholder="Enter URL here...">
+        <button class="btn" onclick="shortenUrl()">Shorten URL</button>
+        <p id="shortened-url"></p>
+    </div>
+    <script>
+        function shortenUrl() {
+            let url = document.getElementById("url-input").value;
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+            let shortUrl = window.location.origin +"/" + btoa(url).substring(0, 6);
+            document.getElementById("shortened-url").innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+        }
+    </script>
+</body>
+</html>
+

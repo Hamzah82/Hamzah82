@@ -39,8 +39,8 @@
 ---
 
 ### 💰 Support Me:
-If you like my work and want to support me, feel free to donate through **Saweria**:  
-[![Saweria](https://img.shields.io/badge/Donate-Trakteer-red?style=for-the-badge&logo=ko-fi&logoColor=white)](https://saweria.co/wokabi)
+If you like my work and want to support me, feel free to donate through **Trakteer & Crypto**:  
+[![Saweria](https://img.shields.io/badge/Donate-Trakteer-red?style=for-the-badge&logo=ko-fi&logoColor=white)](https://trakteer.id/woka/tip)
 
 ---
 

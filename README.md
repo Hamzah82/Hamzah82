@@ -32,6 +32,8 @@ I'm currently sharpening my skills in **Python, networking, Linux hardening, and
 ### Cybersecurity & Pentesting
 ![John the Ripper](https://img.shields.io/badge/John_The_Ripper-cc0000?style=for-the-badge&logo=ghostery&logoColor=white)
 ![Wifite](https://img.shields.io/badge/Wifite-006400?style=for-the-badge&logo=wifi&logoColor=white)
+![SQLMap](https://img.shields.io/badge/SQLMap-F7BF3C?style=for-the-badge&logo=sqlite&logoColor=black)
+![Burp Suite](https://img.shields.io/badge/Burp_Suite-F57300?style=for-the-badge&logo=bugcrowd&logoColor=white)
 
 ### Learning Focus
 - Ethical Hacking & Cybersecurity

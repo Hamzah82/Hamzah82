@@ -24,9 +24,14 @@ I'm currently sharpening my skills in **Python, networking, Linux hardening, and
 
 ### Tools & OS
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 ![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+### Cybersecurity & Pentesting
+![John the Ripper](https://img.shields.io/badge/John_The_Ripper-cc0000?style=for-the-badge&logo=ghostery&logoColor=white)
+![Wifite](https://img.shields.io/badge/Wifite-006400?style=for-the-badge&logo=wifi&logoColor=white)
 
 ### Learning Focus
 - Ethical Hacking & Cybersecurity

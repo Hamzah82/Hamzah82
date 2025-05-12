@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamzah82 | Web Dev & Pentester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e48aa;
+            --secondary: #9d50bb;
+            --dark: #121212;
+            --light: #f0f0f0;
+            --gray: #1e1e1e;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem 0;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            padding-bottom: 5rem;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 1100px;
+            margin: -3rem auto 0;
+            padding: 0 2rem;
+        }
+        section {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        section:hover {
+            transform: translateY(-5px);
+        }
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .project {
+            background-color: rgba(30, 30, 30, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        .project h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .project-links a {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-top: 0.5rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .project-links a:hover {
+            color: var(--primary);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: var(--light);
+            font-size: 1.8rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .social-links a:hover {
+            transform: translateY(-5px);
+            color: var(--primary);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--gray);
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://github.com/hamzah82.png" alt="Hamzah82" class="profile-img">
+        <h1>Muhammad Hamzah (Hamzah82)</h1>
+        <p class="tagline">Siswa MAN Kota Surabaya | Web Developer & Pentester</p>
+    </header>
+
+    <div class="container">
+        <section id="about">
+            <h2>Tentang Saya</h2>
+            <p>
+                Saya adalah siswa MAN Kota Surabaya dengan passion di bidang pengembangan web dan keamanan siber. 
+                Saya menikmati membangun proyek kreatif dan mengeksplorasi celah keamanan sistem.
+            </p>
+        </section>
+
+        <section id="projects">
+            <h2>Proyek Kebanggaan</h2>
+            <div class="project">
+                <h3>Data Center (DACENT)</h3>
+                <p>
+                    Sebuah platform manajemen data center modern dengan antarmuka yang intuitif.
+                </p>
+                <div class="project-links">
+                    <a href="https://dacent.vercel.app" target="_blank"><i class="fas fa-globe"></i> Live Demo</a>
+                    <a href="https://github.com/hamzah82/cloud" target="_blank"><i class="fab fa-github"></i> Repository</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Hubungi Saya</h2>
+            <p>
+                Tertarik berkolaborasi atau ingin tahu lebih banyak? Silakan hubungi saya melalui:
+            </p>
+            <div class="social-links">
+                <a href="https://github.com/hamzah82" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://instagram.com/d38r15" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:wokabi108@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        &copy; 2023 Hamzah82 | Dibuat dengan ❤️ dan CSS
+    </footer>
+</body>
+</html>

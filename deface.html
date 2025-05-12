@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Site Has Been Seized</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      border: 3px solid red;
+      background: #111;
+      padding: 30px;
+      max-width: 700px;
+      box-shadow: 0 0 25px red;
+      border-radius: 10px;
+    }
+    .profile-pic {
+      border-radius: 50%;
+      border: 3px solid #0f0;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px #0f0;
+    }
+    .banner {
+      background-color: red;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    h1 {
+      color: #f00;
+      font-size: 1.5em;
+      margin: 20px 0 10px;
+      text-shadow: 0 0 10px #f00;
+    }
+    p, li {
+      font-size: 1em;
+      line-height: 1.6em;
+    }
+    .warning {
+      color: yellow;
+      font-weight: bold;
+      margin: 20px 0;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .ip-address {
+      font-family: monospace;
+      background: #222;
+      padding: 4px 10px;
+      border-radius: 5px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.8em;
+      color: #aaa;
+    }
+    ul {
+      text-align: left;
+      margin: 15px auto;
+      max-width: 400px;
+      list-style: square;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://github.com/hamzah82.png" alt="Hamzah" class="profile-pic">
+    <div class="banner">This site has been seized by Hamzah82</div>
+    
+    <h1>Digital Fortress Breached</h1>
+    <p>This domain is under control of a cyber entity known as <strong>Awangku Hamzah</strong>.</p>
+
+    <p class="warning">Your IP address: <span class="ip-address">192.168.1.<script>document.write(Math.floor(Math.random()*255));</script></span> has been logged.</p>
+    
+    <p>Reason for seizure:</p>
+    <ul>
+      <li>Weak firewall configuration</li>
+      <li>Outdated CMS plugins</li>
+      <li>Unauthorized file sharing</li>
+      <li>General cyber negligence</li>
+    </ul>
+
+    <p class="warning">This is a reminder: secure your assets before I do.</p>
+
+    <div class="footer">
+      Logged by Hamzah82 | <script>document.write(new Date().toDateString());</script> <br>
+      Unauthorized access is your own responsibility.
+    </div>
+  </div>
+</body>
+</html>

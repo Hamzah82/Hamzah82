@@ -1,185 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hamzah82 | Web Dev & Pentester</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    :root {
-      --primary: #6e48aa;
-      --secondary: #9d50bb;
-      --dark: #121212;
-      --light: #f0f0f0;
-      --gray: #1e1e1e;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background-color: var(--dark);
-      color: var(--light);
-      line-height: 1.6;
-    }
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      padding: 2rem 0;
-      text-align: center;
-      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-      padding-bottom: 5rem;
-    }
-    .profile-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s;
-    }
-    .profile-img:hover {
-      transform: scale(1.05);
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin: 1rem 0;
-      background: linear-gradient(to right, #fff, #ddd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .tagline {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .container {
-      max-width: 1100px;
-      margin: -3rem auto 0;
-      padding: 0 2rem;
-    }
-    section {
-      background-color: var(--gray);
-      border-radius: 10px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s;
-    }
-    section:hover {
-      transform: translateY(-5px);
-    }
-    h2 {
-      color: var(--primary);
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 0.5rem;
-      display: inline-block;
-    }
-    .project {
-      background-color: rgba(30, 30, 30, 0.7);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      border-left: 4px solid var(--primary);
-    }
-    .project h3 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .project-links a {
-      display: inline-block;
-      margin-right: 1rem;
-      margin-top: 0.5rem;
-      color: var(--secondary);
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    .project-links a:hover {
-      color: var(--primary);
-    }
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    .social-links a {
-      color: var(--light);
-      font-size: 1.8rem;
-      transition: transform 0.3s, color 0.3s;
-    }
-    .social-links a:hover {
-      transform: translateY(-5px);
-      color: var(--primary);
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: var(--gray);
-      margin-top: 2rem;
-    }
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .container {
-        padding: 0 1rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamzah82 | Web Dev & Pentester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e48aa;
+            --secondary: #9d50bb;
+            --dark: #121212;
+            --light: #f0f0f0;
+            --gray: #1e1e1e;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem 0;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            padding-bottom: 5rem;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 1100px;
+            margin: -3rem auto 0;
+            padding: 0 2rem;
+        }
+        section {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        section:hover {
+            transform: translateY(-5px);
+        }
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .project {
+            background-color: rgba(30, 30, 30, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        .project h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .project-links a {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-top: 0.5rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .project-links a:hover {
+            color: var(--primary);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: var(--light);
+            font-size: 1.8rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .social-links a:hover {
+            transform: translateY(-5px);
+            color: var(--primary);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--gray);
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+        }
+        /* Skills Styling */
+        #skills .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .skill {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .skill i {
+            font-size: 1.4rem;
+            color: var(--primary);
+            min-width: 24px;
+        }
+        .skill:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <img src="https://github.com/hamzah82.png" alt="Hamzah82" class="profile-img" />
-    <h1>Muhammad Hamzah (Hamzah82)</h1>
-    <p class="tagline">Student at MAN Kota Surabaya | Web Developer & Pentester</p>
-  </header>
-
-  <div class="container">
+    <header>
+        <img src="https://github.com/hamzah82.png" alt="Hamzah82" class="profile-img">
+        <h1>Muhammad Hamzah (Hamzah82)</h1>
+        <p class="tagline">Student at MAN Kota Surabaya | Web Developer & Pentester</p>
+    </header><div class="container">
     <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I'm a student at MAN Kota Surabaya with a strong passion for web development and cybersecurity. 
-        I enjoy building creative web projects and exploring security vulnerabilities in systems.
-      </p>
+        <h2>About Me</h2>
+        <p>
+            I'm a student at MAN Kota Surabaya passionate about web development and cybersecurity. I love building creative projects and exploring security flaws in systems.
+        </p>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            <div class="skill"><i class="fab fa-html5"></i> HTML, CSS, JavaScript</div>
+            <div class="skill"><i class="fab fa-node-js"></i> Node.js, Express, REST API</div>
+            <div class="skill"><i class="fas fa-terminal"></i> Linux (Arch), Shell Scripting</div>
+            <div class="skill"><i class="fas fa-sync-alt"></i> Rclone, Waydroid, EasyEffects</div>
+            <div class="skill"><i class="fab fa-git-alt"></i> Git, GitHub, Vercel</div>
+            <div class="skill"><i class="fas fa-shield-alt"></i> Cybersecurity, Web Pentesting</div>
+        </div>
     </section>
 
     <section id="projects">
-      <h2>Featured Project</h2>
-      <div class="project">
-        <h3>Data Center (DACENT)</h3>
-        <p>
-          DACENT is a modern file management and hosting platform built with MEGA and GitHub. 
-          It fetches data dynamically from JSON files and presents a clean, categorized interface for sharing resources like books, software, presets, and more.
-        </p>
-        <div class="project-links">
-          <a href="https://dacent.vercel.app" target="_blank"><i class="fas fa-globe"></i> Live Demo</a>
-          <a href="https://github.com/hamzah82/cloud" target="_blank"><i class="fab fa-github"></i> Repository</a>
+        <h2>Featured Project</h2>
+        <div class="project">
+            <h3>Data Center (DACENT)</h3>
+            <p>
+                A lightweight personal file management system, optimized for sharing and organizing various files like PDFs, games, audio presets, and more — with a JSON-based index and GitHub+MEGA integration.
+            </p>
+            <div class="project-links">
+                <a href="https://dacent.vercel.app" target="_blank"><i class="fas fa-globe"></i> Live Demo</a>
+                <a href="https://github.com/hamzah82/cloud" target="_blank"><i class="fab fa-github"></i> Repository</a>
+            </div>
         </div>
-      </div>
     </section>
 
     <section id="contact">
-      <h2>Contact Me</h2>
-      <p>
-        Interested in collaborating or want to learn more? Feel free to reach out through:
-      </p>
-      <div class="social-links">
-        <a href="https://github.com/hamzah82" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://instagram.com/d38r15" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="mailto:wokabi108@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-      </div>
+        <h2>Contact Me</h2>
+        <p>
+            Interested in collaborating or want to know more? Reach me through:
+        </p>
+        <div class="social-links">
+            <a href="https://github.com/hamzah82" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://instagram.com/d38r15" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:wokabi108@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
     </section>
-  </div>
+</div>
 
-  <footer>
-    &copy; 2023 Hamzah82 | Made with ❤️ and CSS
-  </footer>
+<footer>
+    &copy; 2025 Hamzah82 | Built with passion and CSS
+</footer>
+
 </body>
-</html>
+  </html>

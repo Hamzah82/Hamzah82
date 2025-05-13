@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seized</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #00ff00;
+      font-family: monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 40px;
+      white-space: pre-wrap;
+    }
+    .blink {
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .typing {
+      display: inline;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #00ff00;
+      animation: typing 3s steps(40) 1s 1 normal both, blinkCaret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blinkCaret {
+      50% { border-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+  <div id="output"></div>
+
+  <script>
+    const output = document.getElementById('output');
+    const textLines = [
+      "Seizing domain...\n",
+      "Connecting to target server [OK]\n",
+      "Bypassing WAF... [OK]\n",
+      "Escalating privileges... [OK]\n",
+      "Injecting payload... [DONE]\n",
+      "\n------------------------------------------------------------\n",
+      "               THIS DOMAIN HAS BEEN SEIZED\n",
+      "------------------------------------------------------------\n",
+      "\nOperator: Awangku Hamzah (hamzah82)\n",
+      "Reason:\n",
+      " - Misconfigured firewall\n",
+      " - Outdated software\n",
+      " - Unauthorized data leaks\n",
+      " - Poor security hygiene\n",
+      "\nNote: This is a reminder.\n",
+      "If I can get in, someone worse can too.\n",
+      "\nStatus: Full access granted.\n",
+      "Time Logged: Tue May 13 2025  |  Log ID: #0x1EAC\n",
+      "\n[!] All activities are monitored.\n",
+      "[!] Any attempt to trace this session will fail.\n",
+      "\n> Catch me if you can..."
+    ];
+
+    let currentLine = 0;
+    let currentChar = 0;
+
+    function typeLine() {
+      if (currentLine < textLines.length) {
+        let line = textLines[currentLine];
+        let typingLine = line.slice(0, currentChar + 1);
+
+        // Add the new line to the existing content instead of replacing it
+        output.innerHTML = textLines.slice(0, currentLine).join('') + `<span class="typing">${typingLine}</span>`;
+
+        if (currentChar < line.length) {
+          currentChar++;
+          setTimeout(typeLine, 100);
+        } else {
+          currentLine++;
+          currentChar = 0;
+          setTimeout(typeLine, 500);
+        }
+      }
+    }
+
+    typeLine();
+  </script>
+</body>
+  </html>

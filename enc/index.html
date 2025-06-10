@@ -41,6 +41,7 @@
         
         .input-group {
             margin-bottom: 16px;
+            position: relative;
         }
         
         input, textarea {
@@ -112,6 +113,17 @@
             color: #777;
             margin-top: 20px;
         }
+
+        .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6ac7ff;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -120,6 +132,7 @@
         
         <div class="input-group">
             <input type="password" id="keyInput" placeholder="Enter passphrase (min 8 chars)">
+            <button class="toggle-pw" onclick="togglePassword()">👁️</button>
         </div>
         
         <textarea id="inputText" placeholder="Type your message here..."></textarea>
@@ -142,7 +155,7 @@
     </div>
 
     <script>
-        // Lightweight encryption with key strengthening
+        // Fixed encryption/decryption functions
         function encrypt(text, password) {
             let result = '';
             const key = deriveKey(password);
@@ -153,15 +166,14 @@
                 result += String.fromCharCode(charCode ^ keyChar);
             }
             
-            return btoa(encodeURIComponent(result).replace(/%([0-9A-F]{2})/g, 
-                (match, p1) => String.fromCharCode('0x' + p1));
+            // Fixed Base64 encoding
+            return btoa(unescape(encodeURIComponent(result)));
         }
 
         function decrypt(encrypted, password) {
             try {
-                const decoded = decodeURIComponent(atob(encrypted).split('').map(c => 
-                    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                ).join(''));
+                // Fixed Base64 decoding
+                const decoded = decodeURIComponent(escape(atob(encrypted)));
                 
                 let result = '';
                 const key = deriveKey(password);
@@ -180,8 +192,9 @@
 
         function deriveKey(password) {
             let key = '';
-            for (let i = 0; i < 3; i++) {
-                key += password + i + password.length;
+            // More robust key derivation
+            for (let i = 0; i < password.length; i++) {
+                key += password[i] + password[password.length - 1 - i] + i;
             }
             
             let hash = 0;
@@ -190,11 +203,16 @@
                 hash |= 0;
             }
             
-            return Math.abs(hash).toString(16) + key;
+            return hash.toString(16) + key.length;
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('keyInput');
+            input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         function process(mode) {
-            const input = document.getElementById('inputText').value.trim();
+            const input = document.getElementById('inputText').value;
             const password = document.getElementById('keyInput').value.trim();
             const output = document.getElementById('outputText');
             const status = document.getElementById('status');
@@ -209,8 +227,11 @@
                 return;
             }
             
-            document.getElementById('encryptBtn').disabled = true;
-            document.getElementById('decryptBtn').disabled = true;
+            const encryptBtn = document.getElementById('encryptBtn');
+            const decryptBtn = document.getElementById('decryptBtn');
+            
+            encryptBtn.disabled = true;
+            decryptBtn.disabled = true;
             status.textContent = "Processing...";
             
             setTimeout(() => {
@@ -228,8 +249,8 @@
                     status.textContent = error.message;
                     output.value = "";
                 } finally {
-                    document.getElementById('encryptBtn').disabled = false;
-                    document.getElementById('decryptBtn').disabled = false;
+                    encryptBtn.disabled = false;
+                    decryptBtn.disabled = false;
                 }
             }, 10);
         }
@@ -238,9 +259,11 @@
             const output = document.getElementById('outputText');
             output.select();
             document.execCommand('copy');
-            document.getElementById('status').textContent = "Copied to clipboard!";
+            
+            const status = document.getElementById('status');
+            status.textContent = "Copied to clipboard!";
             setTimeout(() => {
-                document.getElementById('status').textContent = "";
+                status.textContent = "";
             }, 2000);
         }
 

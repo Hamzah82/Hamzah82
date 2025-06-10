@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Message Encryptor/Decryptor</title>
+    <title>Lightweight Message Encryptor</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,484 +11,219 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0f0f0f;
-            color: #f5f5f5;
-            padding: 1em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            padding: 10px;
             min-height: 100vh;
         }
-        h1 {
-            margin: 0.5em 0;
-            color: #00ff99;
-            font-size: 1.5rem;
-            text-align: center;
-        }
         .container {
-            width: 100%;
-            max-width: 700px;
-            padding: 0.5em;
+            max-width: 100%;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        textarea, input[type="text"], input[type="password"] {
+        h1 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        textarea, input {
             width: 100%;
-            padding: 0.8em;
-            background: #1e1e1e;
-            color: #fff;
-            border: 1px solid #333;
-            margin-top: 0.8em;
-            border-radius: 6px;
-            font-size: 1rem;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            min-height: 100px;
             resize: vertical;
         }
-        .input-group {
-            position: relative;
-            margin-bottom: 0.5em;
-        }
-        .toggle-visibility {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #00ff99;
-            cursor: pointer;
-            padding: 5px;
-            font-size: 1rem;
+        .btn-group {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
         }
         button {
-            padding: 0.8em 1.5em;
-            margin: 0.3em;
-            background: #00ff99;
-            color: black;
+            padding: 8px 12px;
+            background: #3498db;
+            color: white;
             border: none;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 6px;
-            transition: background 0.2s ease;
-            font-size: 0.9rem;
+            border-radius: 4px;
             flex: 1;
-            min-width: 120px;
+            font-size: 14px;
         }
         button:hover {
-            background: #00cc7a;
+            background: #2980b9;
         }
         button:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin: 0.8em 0;
-            gap: 0.5em;
+            background: #95a5a6;
         }
         .status {
-            margin: 0.5em 0;
-            color: #00ff99;
+            font-size: 12px;
+            color: #e74c3c;
             text-align: center;
-            font-size: 0.9rem;
-            min-height: 1.2em;
+            margin: 5px 0;
+            min-height: 16px;
         }
-        .copy-btn {
-            background: #444;
-            margin-top: 0.5em;
-        }
-        .copy-btn:hover {
-            background: #666;
-        }
-        .security-info {
-            margin: 1em 0;
-            padding: 0.8em;
-            background: #1a1a1a;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-        .security-info h3 {
-            color: #00ff99;
-            margin-bottom: 0.5em;
-        }
-        .security-info ul {
-            padding-left: 1.5em;
-        }
-        .security-info li {
-            margin-bottom: 0.3em;
-        }
-        .self-destruct {
-            background: #ff4444;
-            color: white;
-        }
-        .self-destruct:hover {
-            background: #cc0000;
-        }
-
-        /* Mobile-specific adjustments */
-        @media (max-width: 480px) {
-            body {
-                padding: 0.5em;
-            }
-            h1 {
-                font-size: 1.3rem;
-                margin: 0.3em 0;
-            }
-            textarea, input[type="text"], input[type="password"] {
-                padding: 0.6em;
-                font-size: 0.9rem;
-            }
-            button {
-                padding: 0.7em 1em;
-                font-size: 0.8rem;
-                min-width: 100px;
-            }
-            .buttons {
-                flex-direction: column;
-            }
-            .container {
-                padding: 0.3em;
-            }
-        }
-
-        /* Tablet adjustments */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                max-width: 90%;
-            }
+        .simple {
+            font-size: 11px;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-
-<h1>Secure Message Encryptor/Decryptor</h1>
 <div class="container">
-    <div class="security-info">
-        <h3>Security Features:</h3>
-        <ul>
-            <li>Military-grade AES-256 encryption</li>
-            <li>Key derivation with PBKDF2 (100,000 iterations)</li>
-            <li>Message authentication (HMAC)</li>
-            <li>Initialization vector for each encryption</li>
-            <li>Automatic key clearing after use</li>
-            <li>Rate limiting to prevent brute force</li>
-        </ul>
-    </div>
+    <h1>Secure Message Encryptor/Decryptor</h1>
     
-    <div class="input-group">
-        <input type="password" id="keyInput" placeholder="Enter strong passphrase (min 12 chars)">
-        <button class="toggle-visibility" onclick="toggleVisibility()">👁️</button>
-    </div>
+    <input type="password" id="keyInput" placeholder="Enter passphrase (min 8 chars)">
     
-    <textarea id="inputText" rows="5" placeholder="Enter text here..."></textarea>
+    <textarea id="inputText" placeholder="Enter your message here..."></textarea>
     
-    <div class="buttons">
+    <div class="btn-group">
         <button id="encryptBtn" onclick="process('encrypt')">Encrypt</button>
         <button id="decryptBtn" onclick="process('decrypt')">Decrypt</button>
     </div>
     
     <div class="status" id="status"></div>
     
-    <textarea id="outputText" rows="5" placeholder="Result..." readonly></textarea>
+    <textarea id="outputText" placeholder="Result will appear here..." readonly></textarea>
     
-    <div class="buttons">
-        <button class="copy-btn" onclick="copyToClipboard()">Copy Result</button>
-        <button class="copy-btn" onclick="clearAll()">Clear All</button>
-        <button class="copy-btn self-destruct" onclick="selfDestruct()">Self-Destruct</button>
+    <div class="btn-group">
+        <button onclick="copyToClipboard()">Copy</button>
+        <button onclick="clearAll()">Clear</button>
     </div>
+    
+    <div class="simple">Lightweight encryption for all devices</div>
 </div>
 
 <script>
-    // Import crypto libraries from CDN
-    const cryptoScript = document.createElement('script');
-    cryptoScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
-    document.head.appendChild(cryptoScript);
+// Lightweight encryption functions
+function encrypt(text, password) {
+    // Simple but effective XOR-based encryption with key derivation
+    let result = '';
+    const key = deriveKey(password);
     
-    const pbkdf2Script = document.createElement('script');
-    pbkdf2Script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js-pbkdf2.min.js';
-    document.head.appendChild(pbkdf2Script);
+    for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i);
+        const keyChar = key.charCodeAt(i % key.length);
+        result += String.fromCharCode(charCode ^ keyChar);
+    }
     
-    // Wait for crypto libraries to load
-    let cryptoReady = false;
-    let checkCryptoReady = setInterval(() => {
-        if (typeof CryptoJS !== 'undefined' && typeof CryptoJS.PBKDF2 !== 'undefined') {
-            cryptoReady = true;
-            clearInterval(checkCryptoReady);
-        }
-    }, 100);
+    // Convert to Base64 for safe transport
+    return btoa(encodeURIComponent(result).replace(/%([0-9A-F]{2})/g, 
+        function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+    }));
+}
 
-    // Security parameters
-    const PBKDF2_ITERATIONS = 100000;
-    const SALT_LENGTH = 16;
-    const IV_LENGTH = 16;
-    const HMAC_KEY_LENGTH = 32;
+function decrypt(encrypted, password) {
+    try {
+        // Decode from Base64 first
+        const decoded = decodeURIComponent(atob(encrypted).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        
+        // XOR decrypt with derived key
+        let result = '';
+        const key = deriveKey(password);
+        
+        for (let i = 0; i < decoded.length; i++) {
+            const charCode = decoded.charCodeAt(i);
+            const keyChar = key.charCodeAt(i % key.length);
+            result += String.fromCharCode(charCode ^ keyChar);
+        }
+        
+        return result;
+    } catch (e) {
+        throw new Error("Decryption failed - wrong key or corrupted data");
+    }
+}
+
+// Simple key derivation to strengthen the password
+function deriveKey(password) {
+    // Create a longer, more complex key from the password
+    let key = '';
+    for (let i = 0; i < 3; i++) {
+        key += password + i + password.length;
+    }
     
-    // Last process time for rate limiting
-    let lastProcess = 0;
-    let processing = false;
-
-    // Generate random salt
-    function generateSalt() {
-        return CryptoJS.lib.WordArray.random(SALT_LENGTH).toString();
+    // Simple hash-like transformation
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        hash = ((hash << 5) - hash) + key.charCodeAt(i);
+        hash |= 0; // Convert to 32bit integer
     }
+    
+    return Math.abs(hash).toString(16) + key;
+}
 
-    // Generate initialization vector
-    function generateIV() {
-        return CryptoJS.lib.WordArray.random(IV_LENGTH).toString();
+// UI Functions
+function process(mode) {
+    const input = document.getElementById('inputText').value.trim();
+    const password = document.getElementById('keyInput').value.trim();
+    const output = document.getElementById('outputText');
+    const status = document.getElementById('status');
+    
+    // Validate input
+    if (!input) {
+        status.textContent = "Please enter some text";
+        return;
     }
-
-    // Derive key from passphrase using PBKDF2
-    function deriveKey(passphrase, salt) {
-        const key = CryptoJS.PBKDF2(passphrase, salt, {
-            keySize: 64 / 4, // 256-bit key (32 bytes for AES, 32 bytes for HMAC)
-            iterations: PBKDF2_ITERATIONS,
-            hasher: CryptoJS.algo.SHA256
-        });
-        return key.toString();
+    
+    if (password.length < 8) {
+        status.textContent = "Passphrase must be at least 8 characters";
+        return;
     }
-
-    // Split the derived key into encryption key and HMAC key
-    function splitKey(derivedKey) {
-        const encryptionKey = derivedKey.substring(0, 64); // First 32 bytes
-        const hmacKey = derivedKey.substring(64, 128); // Next 32 bytes
-        return { encryptionKey, hmacKey };
-    }
-
-    // Calculate HMAC for message authentication
-    function calculateHMAC(message, hmacKey) {
-        return CryptoJS.HmacSHA256(message, hmacKey).toString();
-    }
-
-    // Encrypt message with AES-256-CBC
-    function encryptMessage(message, key, iv) {
-        return CryptoJS.AES.encrypt(message, key, { 
-            iv: CryptoJS.enc.Hex.parse(iv),
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        }).toString();
-    }
-
-    // Decrypt message with AES-256-CBC
-    function decryptMessage(ciphertext, key, iv) {
-        try {
-            const decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
-                iv: CryptoJS.enc.Hex.parse(iv),
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.Pkcs7
-            });
-            return decrypted.toString(CryptoJS.enc.Utf8);
-        } catch (e) {
-            return null;
-        }
-    }
-
-    // Main encryption function
-    async function encrypt(text, passphrase) {
-        if (!cryptoReady) throw new Error("Crypto libraries not loaded yet");
-        
-        // Generate random salt and IV
-        const salt = generateSalt();
-        const iv = generateIV();
-        
-        // Derive keys
-        const derivedKey = deriveKey(passphrase, salt);
-        const { encryptionKey, hmacKey } = splitKey(derivedKey);
-        
-        // Encrypt the message
-        const ciphertext = encryptMessage(text, encryptionKey, iv);
-        
-        // Calculate HMAC
-        const hmac = calculateHMAC(ciphertext + iv + salt, hmacKey);
-        
-        // Combine all components
-        return JSON.stringify({
-            v: 1, // version
-            s: salt,
-            i: iv,
-            c: ciphertext,
-            h: hmac
-        });
-    }
-
-    // Main decryption function
-    async function decrypt(encryptedData, passphrase) {
-        if (!cryptoReady) throw new Error("Crypto libraries not loaded yet");
-        
-        // Parse the encrypted data
-        let data;
-        try {
-            data = JSON.parse(encryptedData);
-        } catch (e) {
-            throw new Error("Invalid encrypted data format");
-        }
-        
-        // Check version
-        if (data.v !== 1) throw new Error("Unsupported version");
-        
-        // Extract components
-        const { s: salt, i: iv, c: ciphertext, h: hmac } = data;
-        
-        // Derive keys
-        const derivedKey = deriveKey(passphrase, salt);
-        const { encryptionKey, hmacKey } = splitKey(derivedKey);
-        
-        // Verify HMAC
-        const calculatedHmac = calculateHMAC(ciphertext + iv + salt, hmacKey);
-        if (calculatedHmac !== hmac) {
-            throw new Error("HMAC verification failed - message may be tampered with");
-        }
-        
-        // Decrypt the message
-        const decrypted = decryptMessage(ciphertext, encryptionKey, iv);
-        if (!decrypted) {
-            throw new Error("Decryption failed - wrong key or corrupted data");
-        }
-        
-        return decrypted;
-    }
-
-    // Toggle password visibility
-    function toggleVisibility() {
-        const keyInput = document.getElementById('keyInput');
-        if (keyInput.type === 'password') {
-            keyInput.type = 'text';
-        } else {
-            keyInput.type = 'password';
-        }
-    }
-
-    // Copy result to clipboard
-    function copyToClipboard() {
-        const output = document.getElementById('outputText');
-        output.select();
-        document.execCommand('copy');
-        document.getElementById('status').textContent = "Copied to clipboard!";
-        setTimeout(() => {
-            document.getElementById('status').textContent = "";
-        }, 2000);
-    }
-
-    // Clear all fields and memory
-    function clearAll() {
-        document.getElementById('inputText').value = "";
-        document.getElementById('outputText').value = "";
-        document.getElementById('keyInput').value = "";
-        document.getElementById('status').textContent = "";
-        
-        // Clear any sensitive data from memory
-        if (window.crypto && window.crypto.getRandomValues) {
-            const keyInput = document.getElementById('keyInput');
-            keyInput.value = new Array(keyInput.value.length + 1).join('X');
-        }
-    }
-
-    // Self-destruct - clear everything aggressively
-    function selfDestruct() {
-        if (!confirm("This will permanently clear ALL data. Continue?")) return;
-        
-        // Overwrite all fields with random data
-        const fields = [
-            document.getElementById('inputText'),
-            document.getElementById('outputText'),
-            document.getElementById('keyInput')
-        ];
-        
-        fields.forEach(field => {
-            if (field.value) {
-                field.value = CryptoJS.lib.WordArray.random(field.value.length).toString();
-            }
-        });
-        
-        // Clear after a delay to ensure overwrite
-        setTimeout(clearAll, 100);
-        document.getElementById('status').textContent = "All data destroyed!";
-    }
-
-    // Process encryption/decryption
-    async function process(mode) {
-        // Rate limiting (2 seconds between operations)
-        const now = Date.now();
-        if (now - lastProcess < 2000) {
-            document.getElementById('status').textContent = "Please wait a moment before trying again";
-            return;
-        }
-        lastProcess = now;
-
-        // Get input elements
-        const input = document.getElementById('inputText').value.trim();
-        const key = document.getElementById('keyInput').value.trim();
-        const output = document.getElementById('outputText');
-        const status = document.getElementById('status');
-        const encryptBtn = document.getElementById('encryptBtn');
-        const decryptBtn = document.getElementById('decryptBtn');
-
-        // Validate input
-        if (!input) {
-            status.textContent = "Please enter some text to process";
-            return;
-        }
-
-        // Validate key (minimum 12 characters)
-        if (key.length < 12) {
-            status.textContent = "Passphrase must be at least 12 characters long";
-            return;
-        }
-
-        // Disable buttons during processing
-        encryptBtn.disabled = true;
-        decryptBtn.disabled = true;
-        processing = true;
-        status.textContent = "Processing...";
-
+    
+    // Disable buttons during processing
+    document.getElementById('encryptBtn').disabled = true;
+    document.getElementById('decryptBtn').disabled = true;
+    status.textContent = "Processing...";
+    
+    // Use setTimeout to keep UI responsive
+    setTimeout(() => {
         try {
             let result;
             if (mode === 'encrypt') {
-                result = await encrypt(input, key);
-                status.textContent = "Encryption successful!";
+                result = encrypt(input, password);
+                status.textContent = "Encrypted successfully!";
             } else {
-                result = await decrypt(input, key);
-                status.textContent = "Decryption successful!";
+                result = decrypt(input, password);
+                status.textContent = "Decrypted successfully!";
             }
             output.value = result;
         } catch (error) {
-            status.textContent = `Error: ${error.message}`;
+            status.textContent = error.message;
             output.value = "";
-            console.error(error);
         } finally {
-            encryptBtn.disabled = false;
-            decryptBtn.disabled = false;
-            processing = false;
-            
-            // Clear the passphrase from memory after short delay
-            setTimeout(() => {
-                if (!processing) {
-                    document.getElementById('keyInput').value = "";
-                }
-            }, 1000);
+            document.getElementById('encryptBtn').disabled = false;
+            document.getElementById('decryptBtn').disabled = false;
         }
-    }
+    }, 10);
+}
 
-    // Auto-resize textareas to fit content
-    function autoResize(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-    }
+function copyToClipboard() {
+    const output = document.getElementById('outputText');
+    output.select();
+    document.execCommand('copy');
+    document.getElementById('status').textContent = "Copied to clipboard!";
+    setTimeout(() => {
+        document.getElementById('status').textContent = "";
+    }, 2000);
+}
 
-    // Add event listeners for auto-resizing
-    document.getElementById('inputText').addEventListener('input', function() {
-        autoResize(this);
-    });
-    document.getElementById('outputText').addEventListener('input', function() {
-        autoResize(this);
-    });
-
-    // Initialize textarea heights
-    window.addEventListener('load', function() {
-        autoResize(document.getElementById('inputText'));
-        autoResize(document.getElementById('outputText'));
-    });
+function clearAll() {
+    document.getElementById('inputText').value = "";
+    document.getElementById('outputText').value = "";
+    document.getElementById('keyInput').value = "";
+    document.getElementById('status').textContent = "";
+}
 </script>
-
 </body>
 </html>

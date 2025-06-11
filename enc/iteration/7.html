@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Message Encryptor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #121212; color: #e0e0e0; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 16px; }
+        .container { width: 100%; max-width: 500px; background: #1e1e1e; border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        h1 { font-size: 1.5rem; font-weight: 600; text-align: center; margin-bottom: 20px; color: #6ac7ff; }
+        .input-group { margin-bottom: 16px; position: relative; }
+        input, textarea { width: 100%; padding: 12px; background: #2d2d2d; border: 1px solid #444; border-radius: 8px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
+        input:focus, textarea:focus { border-color: #6ac7ff; }
+        textarea { min-height: 120px; resize: vertical; }
+        .btn-group { display: flex; gap: 10px; margin: 16px 0; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: #6ac7ff; color: #121212; }
+        .btn-primary:hover { background: #4ab0e6; }
+        .btn-secondary { background: #444; color: #e0e0e0; }
+        .btn-secondary:hover { background: #555; }
+        .status { font-size: 13px; text-align: center; margin: 12px 0; min-height: 18px; color: #ff6a6a; }
+        .footer { font-size: 12px; text-align: center; color: #777; margin-top: 20px; }
+        .toggle-pw { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #6ac7ff; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Secure Message Encryptor</h1>
+        <div class="input-group">
+            <input type="password" id="keyInput" placeholder="Enter passphrase (min 8 chars)">
+            <button class="toggle-pw" onclick="togglePassword()">👁️</button>
+        </div>
+        <textarea id="inputText" placeholder="Type your message here..."></textarea>
+        <div class="btn-group">
+            <button class="btn-primary" id="encryptBtn" onclick="process('encrypt')">Encrypt</button>
+            <button class="btn-primary" id="decryptBtn" onclick="process('decrypt')">Decrypt</button>
+        </div>
+        <div class="status" id="status"></div>
+        <textarea id="outputText" placeholder="Result will appear here..." readonly></textarea>
+        <div class="btn-group">
+            <button class="btn-secondary" onclick="copyToClipboard()">Copy</button>
+            <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="footer">Lightweight + Salted Encryption • Iteration x7 • Dark Theme</div>
+    </div>
+
+    <script>
+        const ITERATIONS = 7;
+
+        async function sha256(input) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function getRandomSalt(length = 8) {
+            const array = new Uint8Array(length);
+            crypto.getRandomValues(array);
+            return Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function xorEncrypt(text, key) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i);
+                const keyChar = key.charCodeAt(i % key.length);
+                result += String.fromCharCode(charCode ^ keyChar);
+            }
+            return btoa(unescape(encodeURIComponent(result)));
+        }
+
+        function xorDecrypt(encrypted, key) {
+            const decoded = decodeURIComponent(escape(atob(encrypted)));
+            let result = '';
+            for (let i = 0; i < decoded.length; i++) {
+                const charCode = decoded.charCodeAt(i);
+                const keyChar = key.charCodeAt(i % key.length);
+                result += String.fromCharCode(charCode ^ keyChar);
+            }
+            return result;
+        }
+
+        async function encrypt(text, password) {
+            const salt = getRandomSalt();
+            let key = await sha256(password + salt);
+            let encrypted = text;
+            for (let i = 0; i < ITERATIONS; i++) {
+                encrypted = xorEncrypt(encrypted, key);
+                key = await sha256(key);
+            }
+            return `${salt}:${ITERATIONS}:${encrypted}`;
+        }
+
+        async function decrypt(encryptedText, password) {
+            try {
+                const [salt, iterStr, data] = encryptedText.split(':');
+                const iterations = parseInt(iterStr);
+                if (!salt || !data || isNaN(iterations)) throw new Error("Invalid format");
+
+                let key = await sha256(password + salt);
+                let keys = [key];
+                for (let i = 1; i < iterations; i++) {
+                    key = await sha256(key);
+                    keys.push(key);
+                }
+
+                let decrypted = data;
+                for (let i = iterations - 1; i >= 0; i--) {
+                    decrypted = xorDecrypt(decrypted, keys[i]);
+                }
+                return decrypted;
+            } catch {
+                throw new Error("Decryption failed - wrong key or corrupted data");
+            }
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('keyInput');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function process(mode) {
+            const input = document.getElementById('inputText').value;
+            const password = document.getElementById('keyInput').value.trim();
+            const output = document.getElementById('outputText');
+            const status = document.getElementById('status');
+
+            if (!input) return status.textContent = "Please enter some text";
+            if (password.length < 8) return status.textContent = "Passphrase must be at least 8 characters";
+
+            const encryptBtn = document.getElementById('encryptBtn');
+            const decryptBtn = document.getElementById('decryptBtn');
+
+            encryptBtn.disabled = true;
+            decryptBtn.disabled = true;
+            status.textContent = "Processing...";
+
+            (async () => {
+                try {
+                    let result;
+                    if (mode === 'encrypt') {
+                        result = await encrypt(input, password);
+                        status.textContent = "✓ Encrypted successfully!";
+                    } else {
+                        result = await decrypt(input, password);
+                        status.textContent = "✓ Decrypted successfully!";
+                    }
+                    output.value = result;
+                } catch (error) {
+                    status.textContent = error.message;
+                    output.value = "";
+                } finally {
+                    encryptBtn.disabled = false;
+                    decryptBtn.disabled = false;
+                }
+            })();
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('outputText');
+            output.select();
+            document.execCommand('copy');
+            const status = document.getElementById('status');
+            status.textContent = "Copied to clipboard!";
+            setTimeout(() => status.textContent = "", 2000);
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = "";
+            document.getElementById('outputText').value = "";
+            document.getElementById('keyInput').value = "";
+            document.getElementById('status').textContent = "";
+        }
+    </script>
+</body>
+</html>

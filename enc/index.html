@@ -42,7 +42,7 @@
     <button class="btn-secondary" onclick="copyToClipboard()">Copy</button>
     <button class="btn-secondary" onclick="clearAll()">Clear</button>
   </div>
-  <div class="footer">Made by Hamzah | 20k iteration + hidden salt</div>
+  <div class="footer">Made by Hamzah | 20k iteration + hidden salt + random padding</div>
 </div>
 
 <script>
@@ -86,23 +86,51 @@
     return result;
   }
 
+  function addRandomPadding(text) {
+    // Add 5-15 random characters at start and end
+    const prefixLength = 5 + Math.floor(Math.random() * 10);
+    const suffixLength = 5 + Math.floor(Math.random() * 10);
+    
+    const prefix = Array.from(crypto.getRandomValues(new Uint8Array(prefixLength)))
+      .map(b => String.fromCharCode(b % 94 + 33)).join('');
+    
+    const suffix = Array.from(crypto.getRandomValues(new Uint8Array(suffixLength)))
+      .map(b => String.fromCharCode(b % 94 + 33)).join('');
+    
+    return prefix + text + suffix;
+  }
+
+  function removePadding(paddedText, originalLength) {
+    const paddingLength = paddedText.length - originalLength;
+    const prefixLength = Math.floor(paddingLength / 2);
+    return paddedText.substring(prefixLength, prefixLength + originalLength);
+  }
+
   async function encrypt(text, password) {
     const salt = getRandomSalt();
     const key = await deriveKey(password, salt);
-    const encrypted = xorEncrypt(text, key);
+    const paddedText = addRandomPadding(text);
+    const encrypted = xorEncrypt(paddedText, key);
     const mid = Math.floor(encrypted.length / 2);
-    const mixed = encrypted.slice(0, mid) + salt + encrypted.slice(mid);
+    const mixed = encrypted.slice(0, mid) + salt + text.length.toString(16).padStart(4, '0') + encrypted.slice(mid);
     return mixed;
   }
 
   async function decrypt(mixed, password) {
     try {
       const saltLength = 16;
-      const mid = Math.floor((mixed.length - saltLength) / 2);
+      const lengthInfoLength = 4;
+      const mid = Math.floor((mixed.length - saltLength - lengthInfoLength) / 2);
+      
       const salt = mixed.slice(mid, mid + saltLength);
-      const encrypted = mixed.slice(0, mid) + mixed.slice(mid + saltLength);
+      const originalLengthHex = mixed.slice(mid + saltLength, mid + saltLength + lengthInfoLength);
+      const originalLength = parseInt(originalLengthHex, 16);
+      
+      const encrypted = mixed.slice(0, mid) + mixed.slice(mid + saltLength + lengthInfoLength);
       const key = await deriveKey(password, salt);
-      return xorDecrypt(encrypted, key);
+      
+      const decryptedPadded = xorDecrypt(encrypted, key);
+      return removePadding(decryptedPadded, originalLength);
     } catch {
       throw new Error("Decryption failed - wrong key or corrupted data");
     }

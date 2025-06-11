@@ -42,7 +42,7 @@
         <button class="btn-secondary" onclick="copyToClipboard()">Copy</button>
         <button class="btn-secondary" onclick="clearAll()">Clear</button>
     </div>
-    <div class="footer">Made by Hamzah | 10k derivationKey iteration</div>
+    <div class="footer">Made by Hamzah | 20k derivationKey iteration</div>
 </div>
 
 <script>
@@ -51,7 +51,7 @@
         return new Uint8Array(hash);
     }
 
-    async function deriveKey(password, salt, iterations = 10000) {
+    async function deriveKey(password, salt, iterations = 20000) {
         let key = new TextEncoder().encode(password + salt);
         for (let i = 0; i < iterations; i++) {
             key = await sha256Hex(key);

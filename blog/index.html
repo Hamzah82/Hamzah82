@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Pribadi Saya</title>
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #34495e;
+            padding: 1rem 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #2c3e50;
+        }
+
+        /* Main Content Layout */
+        main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        /* Featured Post Styles */
+        #featured-post {
+            grid-column: 1 / -1;
+            margin-bottom: 2rem;
+        }
+
+        .featured-post {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-post img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .featured-content {
+            padding: 2rem;
+        }
+
+        .featured-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .featured-content .meta {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .featured-content .excerpt {
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .read-more:hover {
+            background-color: #2980b9;
+        }
+
+        /* Blog Posts Styles */
+        .posts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .post-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .post-content .meta {
+            color: #7f8c8d;
+            margin-bottom: 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .post-content .excerpt {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Aside Styles */
+        .about-me, .categories {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-me h3, .categories h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        #profile-pic {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .categories ul {
+            list-style: none;
+        }
+
+        .categories ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .categories ul li a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .categories ul li a:hover {
+            color: #2980b9;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Blog Pribadi Saya</h1>
+            <p>Tempat berbagi pemikiran dan pengalaman</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#" class="active">Beranda</a></li>
+                <li><a href="#">Tentang Saya</a></li>
+                <li><a href="#">Kategori</a></li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="featured-post">
+            <!-- Konten post unggulan akan diisi oleh JavaScript -->
+        </section>
+
+        <section id="blog-posts">
+            <h2>Artikel Terbaru</h2>
+            <div class="posts-container">
+                <!-- Daftar post akan diisi oleh JavaScript -->
+            </div>
+        </section>
+
+        <aside>
+            <div class="about-me">
+                <h3>Tentang Penulis</h3>
+                <img src="images/profile.jpg" alt="Foto Profil" id="profile-pic">
+                <p id="about-text">Sedang memuat informasi penulis...</p>
+            </div>
+            <div class="categories">
+                <h3>Kategori</h3>
+                <ul id="categories-list">
+                    <!-- Daftar kategori akan diisi oleh JavaScript -->
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Blog Pribadi Saya. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set tahun copyright
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Memuat data dari file JSON
+            fetch('blog/posts.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Menampilkan post unggulan
+                    displayFeaturedPost(data.featuredPost);
+                    
+                    // Menampilkan daftar post
+                    displayPosts(data.posts);
+                    
+                    // Menampilkan informasi penulis
+                    displayAuthorInfo(data.author);
+                    
+                    // Menampilkan kategori
+                    displayCategories(data.categories);
+                })
+                .catch(error => {
+                    console.error('Error loading JSON data:', error);
+                    document.getElementById('featured-post').innerHTML = `
+                        <div class="error-message">
+                            <p>Gagal memuat data blog. Silakan coba lagi nanti.</p>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                });
+
+            // Fungsi untuk menampilkan post unggulan
+            function displayFeaturedPost(post) {
+                const featuredSection = document.getElementById('featured-post');
+                
+                featuredSection.innerHTML = `
+                    <article class="featured-post">
+                        <img src="${post.image}" alt="${post.title}" onerror="this.src='images/placeholder.jpg'">
+                        <div class="featured-content">
+                            <h2>${post.title}</h2>
+                            <div class="meta">
+                                <span>Dipublikasikan pada ${post.date} • Kategori: ${post.category} • ${post.readTime}</span>
+                            </div>
+                            <p class="excerpt">${post.excerpt}</p>
+                            <a href="#" class="read-more" data-id="${post.id}">Baca Selengkapnya</a>
+                        </div>
+                    </article>
+                `;
+            }
+
+            // Fungsi untuk menampilkan daftar post
+            function displayPosts(posts) {
+                const postsContainer = document.querySelector('.posts-container');
+                
+                if (!posts || posts.length === 0) {
+                    postsContainer.innerHTML = '<p>Tidak ada artikel yang tersedia.</p>';
+                    return;
+                }
+                
+                postsContainer.innerHTML = posts.map(post => `
+                    <article class="post-card">
+                        <img src="${post.image}" alt="${post.title}" onerror="this.src='images/placeholder.jpg'">
+                        <div class="post-content">
+                            <h3>${post.title}</h3>
+                            <div class="meta">
+                                <span>${post.date} • ${post.category}</span>
+                            </div>
+                            <p class="excerpt">${post.excerpt}</p>
+                            <a href="#" class="read-more" data-id="${post.id}">Baca Selengkapnya</a>
+                        </div>
+                    </article>
+                `).join('');
+                
+                // Tambahkan event listener untuk tombol baca selengkapnya
+                addReadMoreListeners();
+            }
+
+            // Fungsi untuk menambahkan event listener ke tombol baca selengkapnya
+            function addReadMoreListeners() {
+                document.querySelectorAll('.read-more').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const postId = this.getAttribute('data-id');
+                        // Di sini Anda bisa menambahkan logika untuk menampilkan post lengkap
+                        alert(`Fitur "Baca Selengkapnya" untuk post dengan ID: ${postId}\n\nPada implementasi nyata, ini akan mengarahkan ke halaman detail post.`);
+                    });
+                });
+            }
+
+            // Fungsi untuk menampilkan informasi penulis
+            function displayAuthorInfo(author) {
+                const profilePic = document.getElementById('profile-pic');
+                const aboutText = document.getElementById('about-text');
+                
+                if (author.profilePicture) {
+                    profilePic.src = author.profilePicture;
+                    profilePic.onerror = function() {
+                        this.src = 'images/placeholder-profile.jpg';
+                    };
+                }
+                
+                if (author.bio) {
+                    aboutText.textContent = author.bio;
+                }
+            }
+
+            // Fungsi untuk menampilkan kategori
+            function displayCategories(categories) {
+                const categoriesList = document.getElementById('categories-list');
+                
+                if (!categories || categories.length === 0) {
+                    categoriesList.innerHTML = '<li>Tidak ada kategori</li>';
+                    return;
+                }
+                
+                categoriesList.innerHTML = categories.map(category => `
+                    <li><a href="#" data-category="${category.name}">${category.name} (${category.count})</a></li>
+                `).join('');
+                
+                // Tambahkan event listener untuk kategori
+                categoriesList.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const category = this.getAttribute('data-category');
+                        alert(`Fitur filter by category: ${category}\n\nPada implementasi nyata, ini akan menyaring post berdasarkan kategori.`);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

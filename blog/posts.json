@@ -1,0 +1,77 @@
+{
+    "author": {
+        "name": "Nama Anda",
+        "profilePicture": "images/profile.jpg",
+        "bio": "Halo! Saya seorang penulis blog yang antusias dengan teknologi, perjalanan, dan makanan. Saya senang berbagi pengalaman dan pemikiran saya melalui tulisan di blog ini."
+    },
+    "featuredPost": {
+        "id": "post1",
+        "title": "Pengalaman Pertama Saya Belajar Pemrograman Web",
+        "date": "15 Juni 2023",
+        "category": "Teknologi",
+        "readTime": "5 menit membaca",
+        "image": "images/web-dev.jpg",
+        "excerpt": "Belajar pemrograman web bisa menjadi pengalaman yang menantang sekaligus menyenangkan. Dalam artikel ini, saya berbagi perjalanan saya mempelajari HTML, CSS, dan JavaScript dari nol.",
+        "content": "Konten lengkap artikel akan ditampilkan di sini..."
+    },
+    "posts": [
+        {
+            "id": "post2",
+            "title": "Destinasi Wisata Tersembunyi di Jawa Barat",
+            "date": "10 Juni 2023",
+            "category": "Perjalanan",
+            "image": "images/travel.jpg",
+            "excerpt": "Jawa Barat tidak hanya tentang Bandung dan Puncak. Temukan destinasi wisata tersembunyi yang jarang dikunjungi turis.",
+            "content": "Konten lengkap artikel akan ditampilkan di sini..."
+        },
+        {
+            "id": "post3",
+            "title": "Resep Makanan Sehat untuk Pemula",
+            "date": "5 Juni 2023",
+            "category": "Makanan",
+            "image": "images/food.jpg",
+            "excerpt": "Memasak makanan sehat tidak harus rumit. Berikut beberapa resep mudah untuk pemula yang ingin memulai gaya hidup sehat.",
+            "content": "Konten lengkap artikel akan ditampilkan di sini..."
+        },
+        {
+            "id": "post4",
+            "title": "Tips Produktivitas untuk Bekerja dari Rumah",
+            "date": "1 Juni 2023",
+            "category": "Produktivitas",
+            "image": "images/productivity.jpg",
+            "excerpt": "Bekerja dari rumah memiliki tantangan tersendiri. Berikut tips yang membantu saya tetap produktif saat WFH.",
+            "content": "Konten lengkap artikel akan ditampilkan di sini..."
+        },
+        {
+            "id": "post5",
+            "title": "Review Buku: Atomic Habits oleh James Clear",
+            "date": "25 Mei 2023",
+            "category": "Buku",
+            "image": "images/book.jpg",
+            "excerpt": "Atomic Habits mengajarkan kita tentang kekuatan kebiasaan kecil. Berikut review dan pelajaran yang saya dapat dari buku ini.",
+            "content": "Konten lengkap artikel akan ditampilkan di sini..."
+        }
+    ],
+    "categories": [
+        {
+            "name": "Teknologi",
+            "count": 5
+        },
+        {
+            "name": "Perjalanan",
+            "count": 3
+        },
+        {
+            "name": "Makanan",
+            "count": 4
+        },
+        {
+            "name": "Produktivitas",
+            "count": 2
+        },
+        {
+            "name": "Buku",
+            "count": 3
+        }
+    ]
+}

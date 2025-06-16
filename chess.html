@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catur dengan Bot Tidak Terkalahkan</title>
+    <title>Chess Game with Unbeatable AI</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f0f0f0;
+            background-color: #121212;
             margin: 0;
             padding: 20px;
+            color: #e0e0e0;
         }
         
         h1 {
-            color: #333;
+            color: #ffffff;
             margin-bottom: 20px;
+        }
+        
+        .chess-container {
+            position: relative;
         }
         
         .chess-board {
             display: grid;
             grid-template-columns: repeat(8, 60px);
             grid-template-rows: repeat(8, 60px);
-            border: 2px solid #333;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
         
         .square {
@@ -38,11 +43,11 @@
         }
         
         .light {
-            background-color: #f0d9b5;
+            background-color: #4b7399;
         }
         
         .dark {
-            background-color: #b58863;
+            background-color: #2c4763;
         }
         
         .piece {
@@ -58,14 +63,14 @@
         }
         
         .selected {
-            background-color: rgba(0, 255, 0, 0.5);
+            background-color: rgba(100, 200, 100, 0.5);
         }
         
         .possible-move {
             position: absolute;
             width: 20px;
             height: 20px;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(200, 200, 200, 0.3);
             border-radius: 50%;
             z-index: 5;
         }
@@ -74,7 +79,7 @@
             position: absolute;
             width: 54px;
             height: 54px;
-            border: 3px solid rgba(255, 0, 0, 0.7);
+            border: 3px solid rgba(255, 100, 100, 0.7);
             border-radius: 50%;
             z-index: 5;
             box-sizing: border-box;
@@ -83,9 +88,9 @@
         .info-panel {
             margin-top: 20px;
             padding: 15px;
-            background-color: white;
+            background-color: #1e1e1e;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             width: 480px;
             text-align: center;
         }
@@ -98,7 +103,7 @@
         
         button {
             padding: 8px 16px;
-            background-color: #4CAF50;
+            background-color: #2e7d32;
             color: white;
             border: none;
             border-radius: 4px;
@@ -108,13 +113,14 @@
         }
         
         button:hover {
-            background-color: #45a049;
+            background-color: #1b5e20;
         }
         
         .coordinates {
             position: absolute;
             font-size: 10px;
             pointer-events: none;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .file-coord {
@@ -129,29 +135,28 @@
     </style>
 </head>
 <body>
-    <h1>Game Catur vs Bot Tidak Terkalahkan</h1>
+    <h1>Chess Game vs Unbeatable AI</h1>
     
-    <div class="chess-board" id="board"></div>
+    <div class="chess-container">
+        <div class="chess-board" id="board"></div>
+    </div>
     
     <div class="info-panel">
-        <div class="status" id="status">Giliran Anda (Putih)</div>
-        <button id="resetBtn">Reset Game</button>
+        <div class="status" id="status">Your Turn (White)</div>
+        <button id="resetBtn">New Game</button>
     </div>
 
     <script>
-        // Inisialisasi papan catur
-        const board = document.getElementById('board');
+        const boardElement = document.getElementById('board');
         const statusDisplay = document.getElementById('status');
         const resetBtn = document.getElementById('resetBtn');
         
-        // Representasi papan catur
         let chessBoard = Array(8).fill().map(() => Array(8).fill(null));
         let selectedSquare = null;
         let possibleMoves = [];
-        let currentPlayer = 'white'; // Putih mulai duluan
+        let currentPlayer = 'white';
         let gameOver = false;
         
-        // Simbol Unicode untuk bidak catur
         const pieces = {
             white: {
                 king: '♔',
@@ -171,7 +176,6 @@
             }
         };
         
-        // Nilai material untuk setiap bidak
         const pieceValues = {
             pawn: 100,
             knight: 320,
@@ -180,52 +184,51 @@
             queen: 900,
             king: 20000
         };
-        
-        // Inisialisasi papan catur
+
         function initializeBoard() {
-            // Kosongkan papan
-            board.innerHTML = '';
+            boardElement.innerHTML = '';
             chessBoard = Array(8).fill().map(() => Array(8).fill(null));
             selectedSquare = null;
             possibleMoves = [];
             currentPlayer = 'white';
             gameOver = false;
-            statusDisplay.textContent = 'Giliran Anda (Putih)';
+            statusDisplay.textContent = 'Your Turn (White)';
             
-            // Atur bidak putih
-            chessBoard[0][0] = { type: 'rook', color: 'white', moved: false };
-            chessBoard[0][1] = { type: 'knight', color: 'white' };
-            chessBoard[0][2] = { type: 'bishop', color: 'white' };
-            chessBoard[0][3] = { type: 'queen', color: 'white' };
-            chessBoard[0][4] = { type: 'king', color: 'white', moved: false };
-            chessBoard[0][5] = { type: 'bishop', color: 'white' };
-            chessBoard[0][6] = { type: 'knight', color: 'white' };
-            chessBoard[0][7] = { type: 'rook', color: 'white', moved: false };
-            
-            for (let i = 0; i < 8; i++) {
-                chessBoard[1][i] = { type: 'pawn', color: 'white', moved: false };
-            }
-            
-            // Atur bidak hitam
-            chessBoard[7][0] = { type: 'rook', color: 'black', moved: false };
-            chessBoard[7][1] = { type: 'knight', color: 'black' };
-            chessBoard[7][2] = { type: 'bishop', color: 'black' };
-            chessBoard[7][3] = { type: 'queen', color: 'black' };
-            chessBoard[7][4] = { type: 'king', color: 'black', moved: false };
-            chessBoard[7][5] = { type: 'bishop', color: 'black' };
-            chessBoard[7][6] = { type: 'knight', color: 'black' };
-            chessBoard[7][7] = { type: 'rook', color: 'black', moved: false };
+            // Set up pieces with proper orientation (white at bottom)
+            // Black pieces (top)
+            chessBoard[0][0] = { type: 'rook', color: 'black', moved: false };
+            chessBoard[0][1] = { type: 'knight', color: 'black' };
+            chessBoard[0][2] = { type: 'bishop', color: 'black' };
+            chessBoard[0][3] = { type: 'queen', color: 'black' };
+            chessBoard[0][4] = { type: 'king', color: 'black', moved: false };
+            chessBoard[0][5] = { type: 'bishop', color: 'black' };
+            chessBoard[0][6] = { type: 'knight', color: 'black' };
+            chessBoard[0][7] = { type: 'rook', color: 'black', moved: false };
             
             for (let i = 0; i < 8; i++) {
-                chessBoard[6][i] = { type: 'pawn', color: 'black', moved: false };
+                chessBoard[1][i] = { type: 'pawn', color: 'black', moved: false };
             }
             
-            // Render papan
+            // White pieces (bottom)
+            chessBoard[7][0] = { type: 'rook', color: 'white', moved: false };
+            chessBoard[7][1] = { type: 'knight', color: 'white' };
+            chessBoard[7][2] = { type: 'bishop', color: 'white' };
+            chessBoard[7][3] = { type: 'queen', color: 'white' };
+            chessBoard[7][4] = { type: 'king', color: 'white', moved: false };
+            chessBoard[7][5] = { type: 'bishop', color: 'white' };
+            chessBoard[7][6] = { type: 'knight', color: 'white' };
+            chessBoard[7][7] = { type: 'rook', color: 'white', moved: false };
+            
+            for (let i = 0; i < 8; i++) {
+                chessBoard[6][i] = { type: 'pawn', color: 'white', moved: false };
+            }
+            
             renderBoard();
         }
         
-        // Render papan catur
         function renderBoard() {
+            boardElement.innerHTML = '';
+            
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
                     const square = document.createElement('div');
@@ -233,7 +236,6 @@
                     square.dataset.row = row;
                     square.dataset.col = col;
                     
-                    // Tambahkan koordinat
                     if (col === 7) {
                         const rankCoord = document.createElement('span');
                         rankCoord.className = 'coordinates rank-coord';
@@ -248,7 +250,6 @@
                         square.appendChild(fileCoord);
                     }
                     
-                    // Tambahkan bidak jika ada
                     if (chessBoard[row][col]) {
                         const piece = document.createElement('div');
                         piece.className = 'piece';
@@ -259,12 +260,10 @@
                         square.appendChild(piece);
                     }
                     
-                    // Tandai square yang dipilih
                     if (selectedSquare && selectedSquare.row === row && selectedSquare.col === col) {
                         square.classList.add('selected');
                     }
                     
-                    // Tandai pergerakan yang mungkin
                     const move = possibleMoves.find(m => m.to.row === row && m.to.col === col);
                     if (move) {
                         const moveIndicator = document.createElement('div');
@@ -273,22 +272,19 @@
                     }
                     
                     square.addEventListener('click', handleSquareClick);
-                    board.appendChild(square);
+                    boardElement.appendChild(square);
                 }
             }
         }
-        
-        // Handle klik pada bidak
+
         function handlePieceClick(e) {
             e.stopPropagation();
             const row = parseInt(e.target.dataset.row);
             const col = parseInt(e.target.dataset.col);
             const piece = chessBoard[row][col];
             
-            // Hanya biarkan pemain memilih bidaknya sendiri
             if (piece.color !== currentPlayer || gameOver) return;
             
-            // Jika square sudah dipilih, batalkan seleksi
             if (selectedSquare && selectedSquare.row === row && selectedSquare.col === col) {
                 selectedSquare = null;
                 possibleMoves = [];
@@ -296,27 +292,22 @@
                 return;
             }
             
-            // Pilih square dan dapatkan pergerakan yang mungkin
             selectedSquare = { row, col };
             possibleMoves = getPossibleMoves(row, col, piece);
             renderBoard();
         }
         
-        // Handle klik pada square
         function handleSquareClick(e) {
             if (!selectedSquare || gameOver) return;
             
             const row = parseInt(e.currentTarget.dataset.row);
             const col = parseInt(e.currentTarget.dataset.col);
             
-            // Cek apakah pergerakan valid
             const move = possibleMoves.find(m => m.to.row === row && m.to.col === col);
             if (!move) return;
             
-            // Lakukan pergerakan
             makeMove(move);
             
-            // Jika permainan belum berakhir dan giliran bot, biarkan bot bergerak
             if (!gameOver && currentPlayer === 'black') {
                 setTimeout(() => {
                     makeBotMove();
@@ -324,61 +315,47 @@
             }
         }
         
-        // Lakukan pergerakan
         function makeMove(move) {
             const { from, to, promotion } = move;
             const piece = chessBoard[from.row][from.col];
             
-            // Lakukan pergerakan
             chessBoard[to.row][to.col] = {...piece};
             chessBoard[from.row][from.col] = null;
             
-            // Tandai jika bidak sudah bergerak (untuk castling dan pawn double move)
             chessBoard[to.row][to.col].moved = true;
             
-            // Handle promosi pawn
             if (promotion) {
                 chessBoard[to.row][to.col].type = promotion;
             }
             
-            // Handle en passant
             if (piece.type === 'pawn' && from.col !== to.col && !chessBoard[to.row][to.col]) {
-                // Tangkap pawn yang en passant
                 chessBoard[from.row][to.col] = null;
             }
             
-            // Handle castling
             if (piece.type === 'king' && Math.abs(from.col - to.col) === 2) {
-                // Pindahkan rook
-                if (to.col === 6) { // Kingside
+                if (to.col === 6) {
                     chessBoard[to.row][5] = chessBoard[to.row][7];
                     chessBoard[to.row][7] = null;
-                } else { // Queenside
+                } else {
                     chessBoard[to.row][3] = chessBoard[to.row][0];
                     chessBoard[to.row][0] = null;
                 }
             }
             
-            // Reset seleksi
             selectedSquare = null;
             possibleMoves = [];
             
-            // Ganti giliran
             currentPlayer = currentPlayer === 'white' ? 'black' : 'white';
             
-            // Periksa apakah permainan sudah berakhir
             checkGameEnd();
             
-            // Update status
             if (!gameOver) {
-                statusDisplay.textContent = currentPlayer === 'white' ? 'Giliran Anda (Putih)' : 'Bot sedang berpikir...';
+                statusDisplay.textContent = currentPlayer === 'white' ? 'Your Turn (White)' : 'AI Thinking...';
             }
             
-            // Render papan baru
             renderBoard();
         }
         
-        // Dapatkan semua pergerakan yang mungkin untuk bidak tertentu
         function getPossibleMoves(row, col, piece) {
             const moves = [];
             
@@ -403,28 +380,21 @@
                     break;
             }
             
-            // Filter pergerakan yang membuat raja dalam keadaan skak
             return moves.filter(move => {
-                // Simulasikan pergerakan
                 const tempBoard = JSON.parse(JSON.stringify(chessBoard));
                 const tempPiece = {...tempBoard[row][col]};
                 tempBoard[move.to.row][move.to.col] = tempPiece;
                 tempBoard[row][col] = null;
-                
-                // Cek apakah raja dalam keadaan skak setelah pergerakan ini
                 return !isKingInCheck(tempBoard, piece.color);
             });
         }
         
-        // Dapatkan pergerakan pawn
         function getPawnMoves(row, col, piece, moves) {
-            const direction = piece.color === 'white' ? 1 : -1;
-            const startRow = piece.color === 'white' ? 1 : 6;
+            const direction = piece.color === 'white' ? -1 : 1;
+            const startRow = piece.color === 'white' ? 6 : 1;
             
-            // Pergerakan maju satu langkah
             if (isValidSquare(row + direction, col) && !chessBoard[row + direction][col]) {
-                // Cek promosi
-                if ((piece.color === 'white' && row + direction === 7) || (piece.color === 'black' && row + direction === 0)) {
+                if ((piece.color === 'white' && row + direction === 0) || (piece.color === 'black' && row + direction === 7)) {
                     ['queen', 'rook', 'bishop', 'knight'].forEach(promotion => {
                         moves.push({
                             from: { row, col },
@@ -438,7 +408,6 @@
                         to: { row: row + direction, col }
                     });
                     
-                    // Pergerakan maju dua langkah dari posisi awal
                     if (row === startRow && !chessBoard[row + 2 * direction][col]) {
                         moves.push({
                             from: { row, col },
@@ -448,13 +417,11 @@
                 }
             }
             
-            // Tangkap bidak diagonal
             for (const dc of [-1, 1]) {
                 if (isValidSquare(row + direction, col + dc)) {
                     const target = chessBoard[row + direction][col + dc];
                     if (target && target.color !== piece.color) {
-                        // Cek promosi
-                        if ((piece.color === 'white' && row + direction === 7) || (piece.color === 'black' && row + direction === 0)) {
+                        if ((piece.color === 'white' && row + direction === 0) || (piece.color === 'black' && row + direction === 7)) {
                             ['queen', 'rook', 'bishop', 'knight'].forEach(promotion => {
                                 moves.push({
                                     from: { row, col },
@@ -469,26 +436,21 @@
                             });
                         }
                     }
-                    
-                    // En passant (belum diimplementasikan secara lengkap)
-                    // Ini adalah implementasi sederhana, tidak memperhatikan langkah sebelumnya
                 }
             }
         }
         
-        // Dapatkan pergerakan rook
         function getRookMoves(row, col, piece, moves) {
             const directions = [
-                { dr: 1, dc: 0 },  // Bawah
-                { dr: -1, dc: 0 }, // Atas
-                { dr: 0, dc: 1 },   // Kanan
-                { dr: 0, dc: -1 }   // Kiri
+                { dr: 1, dc: 0 },
+                { dr: -1, dc: 0 },
+                { dr: 0, dc: 1 },
+                { dr: 0, dc: -1 }
             ];
             
             getSlidingMoves(row, col, piece, directions, moves);
         }
         
-        // Dapatkan pergerakan knight
         function getKnightMoves(row, col, piece, moves) {
             const knightMoves = [
                 { dr: 2, dc: 1 },
@@ -517,28 +479,23 @@
             }
         }
         
-        // Dapatkan pergerakan bishop
         function getBishopMoves(row, col, piece, moves) {
             const directions = [
-                { dr: 1, dc: 1 },   // Bawah kanan
-                { dr: 1, dc: -1 },  // Bawah kiri
-                { dr: -1, dc: 1 },  // Atas kanan
-                { dr: -1, dc: -1 }  // Atas kiri
+                { dr: 1, dc: 1 },
+                { dr: 1, dc: -1 },
+                { dr: -1, dc: 1 },
+                { dr: -1, dc: -1 }
             ];
             
             getSlidingMoves(row, col, piece, directions, moves);
         }
         
-        // Dapatkan pergerakan queen
         function getQueenMoves(row, col, piece, moves) {
-            // Queen adalah kombinasi rook dan bishop
             getRookMoves(row, col, piece, moves);
             getBishopMoves(row, col, piece, moves);
         }
         
-        // Dapatkan pergerakan king
         function getKingMoves(row, col, piece, moves) {
-            // Pergerakan biasa
             for (let dr = -1; dr <= 1; dr++) {
                 for (let dc = -1; dc <= 1; dc++) {
                     if (dr === 0 && dc === 0) continue;
@@ -558,10 +515,7 @@
                 }
             }
             
-            // Castling (belum diimplementasikan secara lengkap)
-            // Ini adalah implementasi sederhana tanpa pengecekan skak
             if (!piece.moved) {
-                // Kingside
                 if (chessBoard[row][7] && chessBoard[row][7].type === 'rook' && !chessBoard[row][7].moved &&
                     !chessBoard[row][5] && !chessBoard[row][6]) {
                     moves.push({
@@ -571,7 +525,6 @@
                     });
                 }
                 
-                // Queenside
                 if (chessBoard[row][0] && chessBoard[row][0].type === 'rook' && !chessBoard[row][0].moved &&
                     !chessBoard[row][1] && !chessBoard[row][2] && !chessBoard[row][3]) {
                     moves.push({
@@ -583,7 +536,6 @@
             }
         }
         
-        // Helper untuk mendapatkan pergerakan sliding (rook, bishop, queen)
         function getSlidingMoves(row, col, piece, directions, moves) {
             for (const dir of directions) {
                 for (let i = 1; i < 8; i++) {
@@ -611,14 +563,11 @@
             }
         }
         
-        // Cek apakah square valid
         function isValidSquare(row, col) {
             return row >= 0 && row < 8 && col >= 0 && col < 8;
         }
         
-        // Cek apakah raja dalam keadaan skak
         function isKingInCheck(board, color) {
-            // Temukan posisi raja
             let kingPos = null;
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
@@ -632,7 +581,6 @@
             
             if (!kingPos) return false;
             
-            // Cek apakah ada bidak lawan yang bisa menyerang raja
             const opponentColor = color === 'white' ? 'black' : 'white';
             
             for (let row = 0; row < 8; row++) {
@@ -650,14 +598,12 @@
             return false;
         }
         
-        // Versi sederhana dari getPossibleMoves untuk pengecekan skak
         function getPossibleMovesForPiece(row, col, piece, board, ignoreKingSafety) {
             const moves = [];
             
             switch (piece.type) {
                 case 'pawn':
-                    // Untuk pengecekan skak, pawn hanya bisa menangkap diagonal
-                    const direction = piece.color === 'white' ? 1 : -1;
+                    const direction = piece.color === 'white' ? -1 : 1;
                     for (const dc of [-1, 1]) {
                         if (isValidSquare(row + direction, col + dc)) {
                             const target = board[row + direction][col + dc];
@@ -683,33 +629,27 @@
                     getQueenMoves(row, col, piece, moves);
                     break;
                 case 'king':
-                    // Untuk pengecekan skak, raja tidak perlu diperiksa
                     break;
             }
             
             return moves;
         }
         
-        // Cek apakah permainan sudah berakhir (skak mat atau stalemate)
         function checkGameEnd() {
-            // Cek apakah pemain saat ini memiliki pergerakan legal
             const hasLegalMoves = hasAnyLegalMove(currentPlayer);
             
             if (!hasLegalMoves) {
                 if (isKingInCheck(chessBoard, currentPlayer)) {
-                    // Skak mat
                     gameOver = true;
-                    const winner = currentPlayer === 'white' ? 'Hitam' : 'Putih';
-                    statusDisplay.textContent = `Skak mat! ${winner} menang!`;
+                    const winner = currentPlayer === 'white' ? 'Black' : 'White';
+                    statusDisplay.textContent = `Checkmate! ${winner} wins!`;
                 } else {
-                    // Stalemate
                     gameOver = true;
-                    statusDisplay.textContent = 'Stalemate! Permainan seri.';
+                    statusDisplay.textContent = 'Stalemate! Game drawn.';
                 }
             }
         }
         
-        // Cek apakah pemain memiliki pergerakan legal apapun
         function hasAnyLegalMove(color) {
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
@@ -725,12 +665,10 @@
             return false;
         }
         
-        // Buat bot melakukan pergerakan menggunakan algoritma Minimax
         function makeBotMove() {
             if (gameOver || currentPlayer !== 'black') return;
             
-            // Gunakan algoritma Minimax dengan alpha-beta pruning
-            const depth = 3; // Kedalaman pencarian (semakin besar semakin kuat tapi lebih lambat)
+            const depth = 3;
             const { move } = minimax(chessBoard, depth, -Infinity, Infinity, true);
             
             if (move) {
@@ -738,9 +676,7 @@
             }
         }
         
-        // Algoritma Minimax dengan alpha-beta pruning
         function minimax(board, depth, alpha, beta, isMaximizing) {
-            // Basis: kedalaman 0 atau permainan berakhir
             if (depth === 0 || isGameOver(board)) {
                 return { value: evaluateBoard(board), move: null };
             }
@@ -749,23 +685,19 @@
             
             if (isMaximizing) {
                 let maxEval = -Infinity;
-                const moves = getAllPossibleMoves(board, 'black'); // Bot adalah hitam
+                const moves = getAllPossibleMoves(board, 'black');
                 
                 for (const move of moves) {
-                    // Buat salinan board dan lakukan pergerakan
                     const newBoard = JSON.parse(JSON.stringify(board));
                     makeMoveOnBoard(newBoard, move);
                     
-                    // Rekursi
                     const { value } = minimax(newBoard, depth - 1, alpha, beta, false);
                     
-                    // Update nilai maksimal
                     if (value > maxEval) {
                         maxEval = value;
                         bestMove = move;
                     }
                     
-                    // Alpha-beta pruning
                     alpha = Math.max(alpha, value);
                     if (beta <= alpha) {
                         break;
@@ -775,23 +707,19 @@
                 return { value: maxEval, move: bestMove };
             } else {
                 let minEval = Infinity;
-                const moves = getAllPossibleMoves(board, 'white'); // Pemain adalah putih
+                const moves = getAllPossibleMoves(board, 'white');
                 
                 for (const move of moves) {
-                    // Buat salinan board dan lakukan pergerakan
                     const newBoard = JSON.parse(JSON.stringify(board));
                     makeMoveOnBoard(newBoard, move);
                     
-                    // Rekursi
                     const { value } = minimax(newBoard, depth - 1, alpha, beta, true);
                     
-                    // Update nilai minimal
                     if (value < minEval) {
                         minEval = value;
                         bestMove = move;
                     }
                     
-                    // Alpha-beta pruning
                     beta = Math.min(beta, value);
                     if (beta <= alpha) {
                         break;
@@ -802,7 +730,6 @@
             }
         }
         
-        // Dapatkan semua pergerakan yang mungkin untuk pemain tertentu
         function getAllPossibleMoves(board, color) {
             const moves = [];
             
@@ -823,7 +750,6 @@
             return moves;
         }
         
-        // Versi getPossibleMoves yang memperhitungkan keselamatan raja
         function getPossibleMovesForPieceWithKingSafety(row, col, piece, board) {
             const moves = [];
             
@@ -848,58 +774,46 @@
                     break;
             }
             
-            // Filter pergerakan yang membuat raja dalam keadaan skak
             return moves.filter(move => {
-                // Simulasikan pergerakan
                 const tempBoard = JSON.parse(JSON.stringify(board));
                 const tempPiece = {...tempBoard[row][col]};
                 tempBoard[move.to.row][move.to.col] = tempPiece;
                 tempBoard[row][col] = null;
-                
-                // Cek apakah raja dalam keadaan skak setelah pergerakan ini
                 return !isKingInCheck(tempBoard, piece.color);
             });
         }
         
-        // Lakukan pergerakan pada board (untuk simulasi)
         function makeMoveOnBoard(board, move) {
             const { from, to, promotion } = move;
             const piece = board[from.row][from.col];
             
-            // Lakukan pergerakan
             board[to.row][to.col] = {...piece};
             board[from.row][from.col] = null;
             
-            // Tandai jika bidak sudah bergerak
             board[to.row][to.col].moved = true;
             
-            // Handle promosi pawn
             if (promotion) {
                 board[to.row][to.col].type = promotion;
             }
             
-            // Handle en passant (sederhana)
             if (piece.type === 'pawn' && from.col !== to.col && !board[to.row][to.col]) {
                 board[from.row][to.col] = null;
             }
             
-            // Handle castling (sederhana)
             if (piece.type === 'king' && Math.abs(from.col - to.col) === 2) {
-                if (to.col === 6) { // Kingside
+                if (to.col === 6) {
                     board[to.row][5] = board[to.row][7];
                     board[to.row][7] = null;
-                } else { // Queenside
+                } else {
                     board[to.row][3] = board[to.row][0];
                     board[to.row][0] = null;
                 }
             }
         }
         
-        // Evaluasi posisi papan (fungsi evaluasi sederhana)
         function evaluateBoard(board) {
             let score = 0;
             
-            // Nilai material
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
                     const piece = board[row][col];
@@ -910,22 +824,16 @@
                 }
             }
             
-            // Faktor posisional sederhana
-            // (Dalam implementasi nyata, ini bisa lebih kompleks)
-            
             return score;
         }
         
-        // Cek apakah permainan sudah berakhir
         function isGameOver(board) {
-            // Cek skak mat atau stalemate untuk kedua pemain
             const whiteHasMoves = hasAnyLegalMoveForColor(board, 'white');
             const blackHasMoves = hasAnyLegalMoveForColor(board, 'black');
             
             return !whiteHasMoves || !blackHasMoves;
         }
         
-        // Cek apakah pemain tertentu memiliki pergerakan legal
         function hasAnyLegalMoveForColor(board, color) {
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
@@ -941,10 +849,8 @@
             return false;
         }
         
-        // Event listener untuk tombol reset
         resetBtn.addEventListener('click', initializeBoard);
         
-        // Mulai permainan
         initializeBoard();
     </script>
 </body>

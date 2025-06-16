@@ -194,8 +194,6 @@
             gameOver = false;
             statusDisplay.textContent = 'Your Turn (White)';
             
-            // Set up pieces with proper orientation (white at bottom)
-            // Black pieces (top)
             chessBoard[0][0] = { type: 'rook', color: 'black', moved: false };
             chessBoard[0][1] = { type: 'knight', color: 'black' };
             chessBoard[0][2] = { type: 'bishop', color: 'black' };
@@ -209,7 +207,6 @@
                 chessBoard[1][i] = { type: 'pawn', color: 'black', moved: false };
             }
             
-            // White pieces (bottom)
             chessBoard[7][0] = { type: 'rook', color: 'white', moved: false };
             chessBoard[7][1] = { type: 'knight', color: 'white' };
             chessBoard[7][2] = { type: 'bishop', color: 'white' };
@@ -418,21 +415,22 @@
             }
             
             for (const dc of [-1, 1]) {
-                if (isValidSquare(row + direction, col + dc)) {
-                    const target = chessBoard[row + direction][col + dc];
+                const newCol = col + dc;
+                if (isValidSquare(row + direction, newCol)) {
+                    const target = chessBoard[row + direction][newCol];
                     if (target && target.color !== piece.color) {
                         if ((piece.color === 'white' && row + direction === 0) || (piece.color === 'black' && row + direction === 7)) {
                             ['queen', 'rook', 'bishop', 'knight'].forEach(promotion => {
                                 moves.push({
                                     from: { row, col },
-                                    to: { row: row + direction, col: col + dc },
+                                    to: { row: row + direction, col: newCol },
                                     promotion
                                 });
                             });
                         } else {
                             moves.push({
                                 from: { row, col },
-                                to: { row: row + direction, col: col + dc }
+                                to: { row: row + direction, col: newCol }
                             });
                         }
                     }
